@@ -3,7 +3,8 @@
 
 #include <memory>
 #include "IQueue.h"
-#include "QueueLinkedList.h"
+//#include "QueueLinkedList.h"
+#include "QueueCircularArray.h"
 
 template<typename T>
 class Queue : public IQueue<T>
@@ -16,13 +17,15 @@ public:
     virtual void enqueue(T) override;
     virtual T dequeue() override;
 private:
-    std::shared_ptr<QueueLinkedList<T> > mImpl;
+    //std::shared_ptr<QueueLinkedList<T> > mImpl;
+    std::shared_ptr<QueueCircularArray<T> > mImpl;
 };
 
 template<typename T>
 Queue<T>::Queue()
 {
-    mImpl = std::make_shared<QueueLinkedList<T> >();
+    //mImpl = std::make_shared<QueueLinkedList<T> >();
+    mImpl = std::make_shared<QueueCircularArray<T> >();
 }
 
 template<typename T>
