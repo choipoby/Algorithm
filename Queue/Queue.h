@@ -3,19 +3,26 @@
 
 #include <memory>
 #include "IQueue.h"
+#include "IIterable.h"
 //#include "QueueLinkedList.h"
 #include "QueueCircularArray.h"
 
 template<typename T>
-class Queue : public IQueue<T>
+class Queue : public IQueue<T>, public IIterable<T>
 {
 public:
     Queue();
     virtual ~Queue();
+
+    // IQueue interfaces
     virtual bool isEmpty() override;
     virtual int size() override;
     virtual void enqueue(T) override;
     virtual T dequeue() override;
+
+    // IIterable interfaces
+    virtual bool hasNext() override;
+    virtual T next() override;
 private:
     //std::shared_ptr<QueueLinkedList<T> > mImpl;
     std::shared_ptr<QueueCircularArray<T> > mImpl;
@@ -56,6 +63,18 @@ template<typename T>
 T Queue<T>::dequeue()
 {
     return mImpl->dequeue();
+}
+
+template<typename T>
+bool Queue<T>::hasNext()
+{
+    return mImpl->hasNext();
+}
+
+template<typename T>
+T Queue<T>::next()
+{
+    return mImpl->next();
 }
 
 #endif
