@@ -58,20 +58,21 @@ void BinaryHeapPriorityQueue::swim(int index)
 
 void BinaryHeapPriorityQueue::sink(int index)
 {
-    // return if there is no leaf node to swap
-    //printf("index %d, buffer.size() - 1 : %d \n", index, buffer.size() - 1);
+    int arraySize = buffer.size() - 1;
+    if (arraySize < index*2) {
+        return;
+    }
 
-    if ( buffer.size()-1 >= 2*index+1 ) {
-        if( buffer[2*index + 1] >= buffer[2*index] && buffer[2*index +1] > buffer[index]) {
-            swap(2*index + 1, index);
-            sink(2*index + 1);
-        } else {
-            swap(2*index, index);
-            sink(2*index);
-        }
-    } else if ( buffer.size()-1 >= 2*index && buffer[2*index] > buffer[index]) {
-        swap(2*index, index);
-        sink(2*index);
+    int comparingIndex = 0;
+    if ( (arraySize >= index*2 + 1) && (buffer[2*index + 1] > buffer[2*index]) ){
+        comparingIndex = 2*index+1;
+    } else {
+        comparingIndex = 2*index;
+    }
+
+    if (buffer[comparingIndex] > buffer[index]){
+        swap(comparingIndex, index);
+        sink(comparingIndex);
     }
 }
 
@@ -90,6 +91,5 @@ void BinaryHeapPriorityQueue::show()
     {
         printf("%d,", buffer[i]);
     }
-    printf("\n----------------------------\n");
 }
 #endif
